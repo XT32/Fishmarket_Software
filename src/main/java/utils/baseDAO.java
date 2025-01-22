@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class baseDAO {
 
     // Database credentials
-    private static final String JDBC_URL = "jdbc:mysql://34.44.81.201:3306/fishmarket";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/fishmarket";
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
 
