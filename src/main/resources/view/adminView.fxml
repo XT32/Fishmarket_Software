@@ -14,10 +14,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1150.0" stylesheets="@../css/userView.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminViewController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="960.0" prefHeight="700.0" prefWidth="1180.0" stylesheets="@../css/userView.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminViewController">
    <!-- Left Sidebar -->
    <left>
-      <VBox prefHeight="680.0" prefWidth="230.0" spacing="16.0" styleClass="sidebar" BorderPane.alignment="CENTER">
+      <VBox prefHeight="700.0" prefWidth="230.0" spacing="16.0" styleClass="sidebar" BorderPane.alignment="CENTER">
          <children>
             <!-- Brand -->
             <VBox spacing="2.0" styleClass="sidebar-brand">
@@ -76,11 +76,11 @@
       </VBox>
    </left>
 
-   <!-- Center Content Area -->
+   <!-- Center Responsive Content Area -->
    <center>
       <StackPane styleClass="content-area" BorderPane.alignment="CENTER">
          <children>
-            <!-- 1. DASHBOARD VIEW -->
+            <!-- 1. DASHBOARD VIEW (Responsive 4 Cards + Flex Table) -->
             <VBox fx:id="Dashboard_form" spacing="20.0" visible="true">
                <children>
                   <VBox spacing="2.0">
@@ -90,13 +90,13 @@
                      </children>
                   </VBox>
 
-                  <!-- 4 Metric Cards -->
+                  <!-- 4 Metric Cards (Auto-expand with HBox.hgrow) -->
                   <HBox spacing="16.0">
                      <children>
                         <!-- Card 1 -->
-                        <HBox alignment="CENTER_LEFT" spacing="14.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                        <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" minWidth="180.0" spacing="14.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
                            <children>
-                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../icon/309041_users_group_people_icon.png" />
                                  </image>
@@ -111,9 +111,9 @@
                         </HBox>
 
                         <!-- Card 2 -->
-                        <HBox alignment="CENTER_LEFT" spacing="14.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                        <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" minWidth="180.0" spacing="14.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
                            <children>
-                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../icon/134157_money_cashier_dollar_currency_icon.png" />
                                  </image>
@@ -128,9 +128,9 @@
                         </HBox>
 
                         <!-- Card 3 -->
-                        <HBox alignment="CENTER_LEFT" spacing="14.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                        <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" minWidth="180.0" spacing="14.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
                            <children>
-                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../icon/8664921_money_bill_icon.png" />
                                  </image>
@@ -145,9 +145,9 @@
                         </HBox>
 
                         <!-- Card 4 -->
-                        <HBox alignment="CENTER_LEFT" spacing="14.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                        <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" minWidth="180.0" spacing="14.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
                            <children>
-                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../icon/4634998_chart_analytics_dashboard_graphic_icon.png" />
                                  </image>
@@ -190,7 +190,7 @@
                </children>
             </VBox>
 
-            <!-- 2. INVENTORY VIEW -->
+            <!-- 2. INVENTORY VIEW (Split: Flex Table + Fixed Editor) -->
             <VBox fx:id="inventory_form" spacing="14.0" visible="false">
                <children>
                   <HBox alignment="CENTER_LEFT">
@@ -201,12 +201,12 @@
                               <Label styleClass="page-subtitle" text="Kelola katalog produk, update harga, dan monitor ketersediaan stok" />
                            </children>
                         </VBox>
-                        <TextField fx:id="inventory_searchField" prefHeight="34.0" prefWidth="240.0" promptText="🔍 Cari ikan di tabel..." />
+                        <TextField fx:id="inventory_searchField" prefHeight="34.0" prefWidth="250.0" promptText="🔍 Cari ikan di tabel..." />
                      </children>
                   </HBox>
 
                   <HBox spacing="16.0" VBox.vgrow="ALWAYS">
-                     <!-- Left Table -->
+                     <!-- Left Table (Flexes to fill remaining width) -->
                      <VBox spacing="10.0" styleClass="card" HBox.hgrow="ALWAYS">
                         <children>
                            <TableView fx:id="inventory_table" VBox.vgrow="ALWAYS">
@@ -224,8 +224,8 @@
                         </children>
                      </VBox>
 
-                     <!-- Right Editor Form -->
-                     <VBox prefWidth="320.0" spacing="12.0" styleClass="card">
+                     <!-- Right Editor Form (Pinned width) -->
+                     <VBox maxWidth="360.0" minWidth="320.0" prefWidth="340.0" spacing="12.0" styleClass="card" HBox.hgrow="NEVER">
                         <children>
                            <Label styleClass="section-title" text="Detail &amp; Input Ikan" />
                            <VBox spacing="4.0">
@@ -340,7 +340,7 @@
                      </TableView>
 
                      <!-- Add Fisherman Form -->
-                     <VBox prefWidth="320.0" spacing="12.0" styleClass="card">
+                     <VBox maxWidth="360.0" minWidth="300.0" prefWidth="320.0" spacing="12.0" styleClass="card" HBox.hgrow="NEVER">
                         <children>
                            <Label styleClass="section-title" text="Tambah Nelayan Baru" />
                            <VBox spacing="4.0">

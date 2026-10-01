@@ -182,6 +182,8 @@ public class LoginRegisterViewController implements Initializable {
             Stage stage = (Stage) si_loginButton.getScene().getWindow();
             stage.setTitle("Fish Market - Seafood Marketplace");
             stage.setScene(new Scene(root, 1100, 650));
+            stage.setMinWidth(960);
+            stage.setMinHeight(600);
             stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
@@ -198,6 +200,8 @@ public class LoginRegisterViewController implements Initializable {
             Stage stage = (Stage) si_loginButton.getScene().getWindow();
             stage.setTitle("Fish Market - Panel Admin & Inventaris");
             stage.setScene(new Scene(root, 1150, 680));
+            stage.setMinWidth(960);
+            stage.setMinHeight(600);
             stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {

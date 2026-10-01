@@ -20,7 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -49,7 +49,7 @@ public class UserViewController implements Initializable {
     @FXML private HBox user_marketPlace;
     @FXML private TextField searchFishField;
     @FXML private ScrollPane menu_scrollPane;
-    @FXML private GridPane ikan_gridPane;
+    @FXML private FlowPane ikan_flowPane;
 
     // Cart
     @FXML private Label cartItemCountLabel;
@@ -186,13 +186,13 @@ public class UserViewController implements Initializable {
     @FXML
     public void refreshCatalog() {
         List<Ikan> ikanList = ikanDAO.getAllIkan();
-        populateGrid(ikanList);
+        populateFlowPane(ikanList);
     }
 
     private void filterCatalog(String query) {
         List<Ikan> all = ikanDAO.getAllIkan();
         if (query == null || query.trim().isEmpty()) {
-            populateGrid(all);
+            populateFlowPane(all);
             return;
         }
 
@@ -200,13 +200,12 @@ public class UserViewController implements Initializable {
         List<Ikan> filtered = all.stream()
                 .filter(i -> i.getNamaIkan().toLowerCase().contains(lower))
                 .toList();
-        populateGrid(filtered);
+        populateFlowPane(filtered);
     }
 
-    private void populateGrid(List<Ikan> items) {
-        ikan_gridPane.getChildren().clear();
-        int column = 0;
-        int row = 0;
+    private void populateFlowPane(List<Ikan> items) {
+        if (ikan_flowPane == null) return;
+        ikan_flowPane.getChildren().clear();
 
         try {
             for (Ikan ikan : items) {
@@ -216,12 +215,7 @@ public class UserViewController implements Initializable {
                 FishCardController cardController = loader.getController();
                 cardController.setData(ikan, this::handleAddToCart);
 
-                if (column == 3) {
-                    column = 0;
-                    row++;
-                }
-
-                ikan_gridPane.add(card, column++, row);
+                ikan_flowPane.getChildren().add(card);
             }
         } catch (IOException e) {
             logger.error("Failed to load fish cards: {}", e.getMessage(), e);
@@ -278,7 +272,6 @@ public class UserViewController implements Initializable {
         shop_kuantitas.setCellValueFactory(new PropertyValueFactory<>("kuantitas"));
         shop_harga.setCellValueFactory(new PropertyValueFactory<>("subtotal"));
 
-        // Format subtotal column in Rupiah
         shop_harga.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(Number item, boolean empty) {
@@ -369,6 +362,8 @@ public class UserViewController implements Initializable {
 
             Stage stage = (Stage) logOut_Bt.getScene().getWindow();
             stage.setTitle("Fish Market - Login");
+            stage.setMinWidth(840);
+            stage.setMinHeight(540);
             stage.setScene(new Scene(root, 840, 540));
             stage.centerOnScreen();
             stage.show();

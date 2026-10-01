@@ -2,6 +2,7 @@ package main;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -11,22 +12,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.Parent;
 
 /**
- * Aplikasi utama
+ * Main Application Entry Point
  */
-
 public class Newfishmarket extends Application {
 
     private static final Logger LOGGER = Logger.getLogger(Newfishmarket.class.getName());
 
-    /**
-     * Method untuk menjalankan aplikasi JavaFX.
-     *
-     * @param stage Stage utama untuk aplikasi.
-     */
-    
     @Override
     public void start(Stage stage) {
         try {
@@ -43,9 +36,12 @@ public class Newfishmarket extends Application {
             FXMLLoader loader = new FXMLLoader(fxmlURL);
             Parent root = loader.load();
 
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, 860, 560);
             stage.setScene(scene);
-            stage.setTitle("Fish Market Login");
+            stage.setTitle("Fish Market - Seafood Hub & Management System");
+            stage.setMinWidth(860);
+            stage.setMinHeight(560);
+            stage.centerOnScreen();
             stage.show();
 
         } catch (IOException e) {
@@ -57,13 +53,6 @@ public class Newfishmarket extends Application {
         }
     }
 
-    /**
-     * Menampilkan dialog error kepada pengguna.
-     *
-     * @param title Judul dialog error.
-     * @param message Pesan error yang ditampilkan.
-     */
-    
     private void showErrorAlert(String title, String message) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle(title);
@@ -72,12 +61,6 @@ public class Newfishmarket extends Application {
         alert.showAndWait();
     }
 
-    /**
-     * Method utama untuk menjalankan aplikasi.
-     *
-     * @param args Parameter untuk aplikasi (tidak digunakan di sini).
-     */
-    
     public static void main(String[] args) {
         launch(args);
     }

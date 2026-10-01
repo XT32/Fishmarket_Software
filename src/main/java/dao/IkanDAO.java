@@ -1,6 +1,7 @@
 package dao;
 
 import model.Ikan;
+import service.RedisCacheService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +29,13 @@ public class IkanDAO {
     }
 
     public List<Ikan> getAllIkan() {
+        // 1. Check Redis Cache
+        List<Ikan> cached = RedisCacheService.getCachedFishCatalog();
+        if (cached != null && !cached.isEmpty()) {
+            return cached;
+        }
+
+        // 2. Cache Miss - Query Database
         List<Ikan> list = new ArrayList<>();
         String query = "SELECT * FROM ikan ORDER BY id_ikan ASC";
         try (Connection conn = getActiveConnection();
@@ -43,6 +51,9 @@ public class IkanDAO {
                         rs.getInt("id_nelayan")
                 ));
             }
+
+            // 3. Cache to Redis for subsequent fast reads
+            RedisCacheService.cacheFishCatalog(list);
         } catch (SQLException e) {
             logger.error("Error retrieving ikan list: {}", e.getMessage(), e);
         }
@@ -65,6 +76,7 @@ public class IkanDAO {
                         ikan.setIdIkan(rs.getInt(1));
                     }
                 }
+                RedisCacheService.invalidateCatalogCache();
                 return true;
             }
         } catch (SQLException e) {
@@ -83,7 +95,11 @@ public class IkanDAO {
             stmt.setInt(4, ikan.getStok());
             stmt.setInt(5, ikan.getIdNelayan() > 0 ? ikan.getIdNelayan() : 1);
             stmt.setInt(6, ikan.getIdIkan());
-            return stmt.executeUpdate() > 0;
+            boolean success = stmt.executeUpdate() > 0;
+            if (success) {
+                RedisCacheService.invalidateCatalogCache();
+            }
+            return success;
         } catch (SQLException e) {
             logger.error("Error updating ikan: {}", e.getMessage(), e);
         }
@@ -95,7 +111,11 @@ public class IkanDAO {
         try (Connection conn = getActiveConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, idIkan);
-            return stmt.executeUpdate() > 0;
+            boolean success = stmt.executeUpdate() > 0;
+            if (success) {
+                RedisCacheService.invalidateCatalogCache();
+            }
+            return success;
         } catch (SQLException e) {
             logger.error("Error deleting ikan {}: {}", idIkan, e.getMessage(), e);
         }
@@ -103,13 +123,19 @@ public class IkanDAO {
     }
 
     public boolean reduceStock(int idIkan, int quantity) {
-        String query = "UPDATE ikan SET stok = GREATEST(0, stok - ?) WHERE id_ikan = ? AND stok >= ?";
+        // Cross-DB compatible: CASE WHEN stok >= ? THEN stok - ? ELSE 0 END
+        String query = "UPDATE ikan SET stok = CASE WHEN stok >= ? THEN stok - ? ELSE 0 END WHERE id_ikan = ? AND stok >= ?";
         try (Connection conn = getActiveConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, quantity);
-            stmt.setInt(2, idIkan);
-            stmt.setInt(3, quantity);
-            return stmt.executeUpdate() > 0;
+            stmt.setInt(2, quantity);
+            stmt.setInt(3, idIkan);
+            stmt.setInt(4, quantity);
+            boolean success = stmt.executeUpdate() > 0;
+            if (success) {
+                RedisCacheService.invalidateCatalogCache();
+            }
+            return success;
         } catch (SQLException e) {
             logger.error("Error reducing stock for ikan {}: {}", idIkan, e.getMessage(), e);
         }

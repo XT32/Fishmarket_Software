@@ -1,5 +1,6 @@
 package dao;
 
+import utils.EnvConfig;
 import utils.PasswordUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,12 +12,13 @@ import java.sql.*;
 import java.util.Properties;
 
 /**
- * Centralized Database Access Object base providing database connections,
- * configuration loading, and auto-initialization of schema and admin account.
+ * Enterprise BaseDAO providing multi-database connectivity (MySQL, PostgreSQL, SQLite),
+ * environment configuration loading (.env), and automatic dialect-specific schema initialization.
  */
 public class BaseDAO {
     private static final Logger logger = LoggerFactory.getLogger(BaseDAO.class);
 
+    private static String dbType = "mysql";
     private static String jdbcUrl;
     private static String username;
     private static String password;
@@ -26,77 +28,137 @@ public class BaseDAO {
         loadConfiguration();
     }
 
-    private static synchronized void loadConfiguration() {
+    public static synchronized void loadConfiguration() {
+        // Fallback properties from classpath
         Properties props = new Properties();
         try (InputStream in = BaseDAO.class.getResourceAsStream("/database.properties")) {
             if (in != null) {
                 props.load(in);
             }
         } catch (Exception e) {
-            logger.warn("Could not load database.properties from classpath: {}", e.getMessage());
+            logger.debug("Could not load database.properties: {}", e.getMessage());
         }
 
-        // Environment variables take precedence over config file
-        String envUrl = System.getenv("DB_URL");
-        String envUser = System.getenv("DB_USER");
-        String envPass = System.getenv("DB_PASSWORD");
+        // Determine DB Type
+        dbType = EnvConfig.get("DB_TYPE", props.getProperty("db.type", "mysql")).toLowerCase();
 
-        jdbcUrl = envUrl != null ? envUrl : props.getProperty("db.url",
-                "jdbc:mysql://localhost:3306/fishmarket?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC");
-        username = envUser != null ? envUser : props.getProperty("db.user", "fishmarket_user");
-        password = envPass != null ? envPass : props.getProperty("db.password", "fishmarket_pass");
+        // Check for full DB_URL
+        String customUrl = EnvConfig.get("DB_URL", props.getProperty("db.url", null));
 
-        logger.info("Database configured for URL: {} and user: {}", jdbcUrl, username);
+        if (customUrl != null && !customUrl.trim().isEmpty()) {
+            jdbcUrl = customUrl.trim();
+            if (jdbcUrl.startsWith("jdbc:postgresql:") || jdbcUrl.startsWith("jdbc:pgsql:")) {
+                dbType = "postgresql";
+            } else if (jdbcUrl.startsWith("jdbc:sqlite:")) {
+                dbType = "sqlite";
+            } else if (jdbcUrl.startsWith("jdbc:mysql:")) {
+                dbType = "mysql";
+            }
+        } else {
+            // Construct URL based on DB_TYPE
+            String host = EnvConfig.get("DB_HOST", "localhost");
+            String port = EnvConfig.get("DB_PORT", dbType.contains("postgre") ? "5432" : "3306");
+            String name = EnvConfig.get("DB_NAME", "fishmarket");
+
+            if (dbType.contains("postgre") || dbType.equals("pgsql")) {
+                dbType = "postgresql";
+                jdbcUrl = "jdbc:postgresql://" + host + ":" + port + "/" + name;
+            } else if (dbType.equals("sqlite")) {
+                jdbcUrl = "jdbc:sqlite:" + name + ".db";
+            } else {
+                dbType = "mysql";
+                jdbcUrl = "jdbc:mysql://" + host + ":" + port + "/" + name +
+                        "?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+            }
+        }
+
+        username = EnvConfig.get("DB_USER", props.getProperty("db.user", "fishmarket_user"));
+        password = EnvConfig.get("DB_PASSWORD", props.getProperty("db.password", "fishmarket_pass"));
+
+        // Register driver
+        try {
+            switch (dbType) {
+                case "postgresql":
+                    Class.forName("org.postgresql.Driver");
+                    break;
+                case "sqlite":
+                    Class.forName("org.sqlite.JDBC");
+                    break;
+                case "mysql":
+                default:
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                    break;
+            }
+        } catch (ClassNotFoundException e) {
+            logger.error("JDBC Driver class not found for {}: {}", dbType, e.getMessage());
+        }
+
+        logger.info("Database configured: Type=[{}], URL=[{}], User=[{}]", dbType, jdbcUrl, username);
     }
 
     /**
-     * Obtains a new database connection.
-     *
-     * @return active java.sql.Connection
-     * @throws SQLException if connection cannot be established
+     * Obtains an active connection to the configured database.
      */
     public static Connection getConnection() throws SQLException {
         try {
-            Connection conn = DriverManager.getConnection(jdbcUrl, username, password);
+            Connection conn;
+            if ("sqlite".equals(dbType)) {
+                conn = DriverManager.getConnection(jdbcUrl);
+            } else {
+                conn = DriverManager.getConnection(jdbcUrl, username, password);
+            }
+
             if (!initialized) {
                 initializeDatabase(conn);
             }
             return conn;
         } catch (SQLException e) {
-            logger.error("Failed to connect to database [{}]: {}", jdbcUrl, e.getMessage());
+            logger.error("Failed to connect to database [{}] (Type: {}): {}", jdbcUrl, dbType, e.getMessage());
             throw e;
         }
     }
 
-    /**
-     * Initializes database tables and default admin if needed.
-     */
     private static synchronized void initializeDatabase(Connection conn) {
         if (initialized) return;
 
         try {
-            // Check if users table exists
             DatabaseMetaData meta = conn.getMetaData();
+            boolean tablesExist = false;
+
+            // Check if users table exists (handle case sensitivity for PostgreSQL/MySQL)
             try (ResultSet rs = meta.getTables(null, null, "users", null)) {
-                if (!rs.next()) {
-                    executeSchemaScript(conn);
+                if (rs.next()) tablesExist = true;
+            }
+            if (!tablesExist) {
+                try (ResultSet rs = meta.getTables(null, null, "USERS", null)) {
+                    if (rs.next()) tablesExist = true;
                 }
             }
 
-            // Ensure admin account exists
-            ensureAdminUser(conn);
+            if (!tablesExist) {
+                logger.info("Tables not detected. Running schema auto-initialization for {}...", dbType);
+                executeSchemaScript(conn);
+            }
 
+            ensureAdminUser(conn);
             initialized = true;
-            logger.info("Database initialized successfully.");
+            logger.info("Database initialized successfully for dialect: {}", dbType);
         } catch (Exception e) {
             logger.error("Error during database initialization: {}", e.getMessage(), e);
         }
     }
 
     private static void executeSchemaScript(Connection conn) {
-        try (InputStream in = BaseDAO.class.getResourceAsStream("/database/schema.sql")) {
+        String scriptPath = "/database/schema.sql";
+        if ("postgresql".equals(dbType)) {
+            scriptPath = "/database/schema-postgres.sql";
+        } else if ("sqlite".equals(dbType)) {
+            scriptPath = "/database/schema-sqlite.sql";
+        }
+
+        try (InputStream in = BaseDAO.class.getResourceAsStream(scriptPath)) {
             if (in == null) {
-                logger.warn("schema.sql not found in resources.");
+                logger.warn("Schema script not found: {}", scriptPath);
                 return;
             }
 
@@ -111,14 +173,14 @@ public class BaseDAO {
                     try (Statement stmt = conn.createStatement()) {
                         stmt.execute(sb.toString());
                     } catch (SQLException e) {
-                        logger.debug("Statement execution notice: {}", e.getMessage());
+                        logger.debug("Script execution note: {}", e.getMessage());
                     }
                     sb.setLength(0);
                 }
             }
-            logger.info("schema.sql executed successfully.");
+            logger.info("Successfully executed dialect script: {}", scriptPath);
         } catch (Exception e) {
-            logger.error("Failed to execute schema.sql: {}", e.getMessage());
+            logger.error("Failed to execute schema script [{}]: {}", scriptPath, e.getMessage());
         }
     }
 
@@ -140,18 +202,19 @@ public class BaseDAO {
                 }
             }
         } catch (SQLException e) {
-            logger.warn("Could not check/create default admin: {}", e.getMessage());
+            logger.warn("Could not verify/create default admin: {}", e.getMessage());
         }
     }
 
-    /**
-     * Tests database connectivity.
-     */
     public static boolean testConnection() {
         try (Connection conn = getConnection()) {
             return conn != null && !conn.isClosed();
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public static String getDbType() {
+        return dbType;
     }
 }

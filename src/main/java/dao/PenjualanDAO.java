@@ -2,6 +2,7 @@ package dao;
 
 import model.CartItem;
 import model.Penjualan;
+import service.RedisCacheService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -112,7 +113,8 @@ public class PenjualanDAO {
         }
 
         String insertSale = "INSERT INTO penjualan (id_user, id_ikan, kuantitas, tanggal, alamat, total) VALUES (?, ?, ?, ?, ?, ?)";
-        String reduceStock = "UPDATE ikan SET stok = GREATEST(0, stok - ?) WHERE id_ikan = ?";
+        // Cross-DB compatible: CASE WHEN stok >= ? THEN stok - ? ELSE 0 END
+        String reduceStock = "UPDATE ikan SET stok = CASE WHEN stok >= ? THEN stok - ? ELSE 0 END WHERE id_ikan = ?";
         String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         try (Connection conn = BaseDAO.getConnection()) {
@@ -134,7 +136,8 @@ public class PenjualanDAO {
                     psSale.addBatch();
 
                     psStock.setInt(1, item.getKuantitas());
-                    psStock.setInt(2, item.getIkan().getIdIkan());
+                    psStock.setInt(2, item.getKuantitas());
+                    psStock.setInt(3, item.getIkan().getIdIkan());
                     psStock.addBatch();
                 }
 
@@ -150,6 +153,10 @@ public class PenjualanDAO {
                 }
 
                 conn.commit();
+
+                // Invalidate Redis cache
+                RedisCacheService.invalidateCatalogCache();
+
                 logger.info("Checkout processed successfully for user id {}, total items: {}", userId, cartItems.size());
                 return true;
             } catch (SQLException e) {

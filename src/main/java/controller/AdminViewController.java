@@ -489,6 +489,8 @@ public class AdminViewController implements Initializable {
 
             Stage stage = (Stage) logout_button.getScene().getWindow();
             stage.setTitle("Fish Market - Login");
+            stage.setMinWidth(840);
+            stage.setMinHeight(540);
             stage.setScene(new Scene(root, 840, 540));
             stage.centerOnScreen();
             stage.show();
