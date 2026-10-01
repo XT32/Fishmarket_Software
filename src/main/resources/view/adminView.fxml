@@ -1,326 +1,371 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.scene.chart.AreaChart?>
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.adminViewController">
-   <children>
-      <AnchorPane fx:id="adminView" prefHeight="200.0" prefWidth="200.0">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1150.0" stylesheets="@../css/userView.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminViewController">
+   <!-- Left Sidebar -->
+   <left>
+      <VBox prefHeight="680.0" prefWidth="230.0" spacing="16.0" styleClass="sidebar" BorderPane.alignment="CENTER">
          <children>
-            <BorderPane layoutX="247.0" layoutY="114.0" prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <left>
-                  <AnchorPane prefHeight="200.0" prefWidth="222.0" BorderPane.alignment="CENTER">
+            <!-- Brand -->
+            <VBox spacing="2.0" styleClass="sidebar-brand">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="8.0">
                      <children>
-                        <AnchorPane layoutX="11.0" layoutY="200.0" prefHeight="600.0" prefWidth="222.4" styleClass="nav_form" stylesheets="@../css/userView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <AnchorPane prefHeight="87.0" prefWidth="222.0" styleClass="header" stylesheets="@../css/userView.css">
-                                 <children>
-                                    <Label layoutX="73.0" layoutY="33.0" text="Fish Market" textFill="WHITE">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </AnchorPane>
-                              <Label layoutX="14.0" layoutY="108.0" text="Welcome," textFill="WHITE" />
-                              <Label layoutX="67.0" layoutY="103.0" text="ADMIN" textFill="WHITE">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <Button fx:id="dashboard_button" layoutX="4.0" layoutY="176.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="210.0" styleClass="nav-btn" stylesheets="@../css/userView.css" text="Dashboard" />
-                              <Button fx:id="inventory_button" layoutX="4.0" layoutY="222.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="210.0" styleClass="nav-btn" stylesheets="@../css/userView.css" text="Inventory" />
-                              <Button fx:id="logout_button" layoutX="15.0" layoutY="545.0" mnemonicParsing="false" stylesheets="@../css/userView.css" text="SIGN OUT">
-                                 <graphic>
-                                 </graphic>
-                                 <styleClass>
-                                    <String fx:value="logout" />
-                                    <String fx:value="shadow" />
-                                 </styleClass>
-                              </Button>
-                              <Button fx:id="display_button" layoutX="4.0" layoutY="269.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="210.0" styleClass="nav-btn" stylesheets="@../css/userView.css" text="Display" />
-                              <Button fx:id="dataJual_button" layoutX="4.0" layoutY="317.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="210.0" styleClass="nav-btn" stylesheets="@../css/userView.css" text="Data jual" />
-                              <Button fx:id="dataBeli_button" layoutX="6.0" layoutY="363.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="210.0" styleClass="nav-btn" stylesheets="@../css/userView.css" text="Data Beli" />
-                              <Button fx:id="dataCustomer_button" layoutX="6.0" layoutY="409.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="210.0" styleClass="nav-btn" stylesheets="@../css/userView.css" text="Data Customer" />
-                           </children>
-                        </AnchorPane>
+                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/8664831_user_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Label styleClass="brand-name" text="Fish Market" />
                      </children>
-                  </AnchorPane>
-               </left>
-               <center>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  </HBox>
+                  <Label styleClass="brand-tag" text="PANEL KONTROL ADMIN" />
+               </children>
+            </VBox>
+
+            <!-- Admin Profile Box -->
+            <VBox spacing="4.0" styleClass="sidebar-user-box">
+               <VBox.margin>
+                  <Insets left="14.0" right="14.0" />
+               </VBox.margin>
+               <children>
+                  <HBox alignment="CENTER_LEFT">
                      <children>
-                        <AnchorPane fx:id="Dashboard_form" layoutX="109.0" layoutY="79.0" prefHeight="600.0" prefWidth="877.6" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="159.0" prefWidth="850.0" stylesheets="@../css/userView.css" AnchorPane.bottomAnchor="426.40000000000003" AnchorPane.leftAnchor="13.600000000000023" AnchorPane.rightAnchor="13.200000000000045" AnchorPane.topAnchor="14.0">
-                                 <styleClass>
-                                    <String fx:value="radius" />
-                                    <String fx:value="shadow" />
-                                    <String fx:value="white-bg" />
-                                 </styleClass>
-                                 <children>
-                                    <ScrollPane layoutX="309.0" layoutY="-20.0" prefHeight="180.0" prefWidth="851.0" styleClass="transparent" stylesheets="@../css/userView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <content>
-                                          <AnchorPane fx:id="scroll_dashboardForm" prefHeight="142.0" prefWidth="1050.0">
-                                             <children>
-                                                <AnchorPane fx:id="Numberof_customer" layoutX="6.0" layoutY="10.0" prefHeight="119.0" prefWidth="248.0" styleClass="nav_form" stylesheets="@../css/userView.css">
-                                                   <children>
-                                                      <Label layoutX="116.0" layoutY="88.0" text="Number of Customers" textFill="WHITE" />
-                                                      <Label layoutX="230.0" layoutY="12.0" text="0" />
-                                                      <ImageView fitHeight="80.0" fitWidth="107.0" layoutX="14.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@../icon/309041_users_group_people_icon.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </children>
-                                                </AnchorPane>
-                                                <AnchorPane fx:id="todays_income" layoutX="262.0" layoutY="11.0" prefHeight="119.0" prefWidth="248.0" styleClass="nav_form" stylesheets="@../css/userView.css">
-                                                   <children>
-                                                      <Label layoutX="150.0" layoutY="88.0" text="Today's Income" textFill="WHITE" />
-                                                      <Label layoutX="229.0" layoutY="12.0" text="0" />
-                                                      <ImageView fitHeight="80.0" fitWidth="107.0" layoutX="14.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@../icon/134157_money_cashier_dollar_currency_icon.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </children>
-                                                </AnchorPane>
-                                                <AnchorPane fx:id="total_income" layoutX="517.0" layoutY="11.0" prefHeight="119.0" prefWidth="248.0" styleClass="nav_form" stylesheets="@../css/userView.css">
-                                                   <children>
-                                                      <Label layoutX="164.0" layoutY="88.0" text="Total Income" textFill="WHITE" />
-                                                      <Label layoutX="230.0" layoutY="12.0" text="0" />
-                                                      <ImageView fitHeight="80.0" fitWidth="107.0" layoutX="14.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@../icon/8664921_money_bill_icon.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </children>
-                                                </AnchorPane>
-                                                <AnchorPane fx:id="numberofsold" layoutX="771.0" layoutY="11.0" prefHeight="119.0" prefWidth="248.0" styleClass="nav_form" stylesheets="@../css/userView.css">
-                                                   <children>
-                                                      <Label layoutX="116.0" layoutY="88.0" text="Number of Sold Product" textFill="WHITE" />
-                                                      <Label layoutX="226.0" layoutY="12.0" text="0" />
-                                                      <ImageView fitHeight="80.0" fitWidth="107.0" layoutX="14.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@../icon/4634998_chart_analytics_dashboard_graphic_icon.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </children>
-                                                </AnchorPane>
-                                             </children>
-                                          </AnchorPane>
-                                       </content>
-                                    </ScrollPane>
-                                 </children>
-                              </AnchorPane>
-                              <AnchorPane layoutX="14.0" layoutY="189.0" prefHeight="402.0" prefWidth="850.0" stylesheets="@../css/userView.css">
-                                 <styleClass>
-                                    <String fx:value="radius" />
-                                    <String fx:value="shadow" />
-                                    <String fx:value="white-bg" />
-                                 </styleClass>
-                                 <children>
-                                    <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="378.0" prefWidth="412.0" stylesheets="@../css/userView.css">
-                                       <styleClass>
-                                          <String fx:value="white-bg" />
-                                          <String fx:value="shadow" />
-                                          <String fx:value="radius" />
-                                       </styleClass>
-                                       <children>
-                                          <AreaChart layoutX="-21.0" layoutY="-11.0" prefHeight="389.6" prefWidth="403.0" title="Income Chart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                            <xAxis>
-                                              <CategoryAxis side="BOTTOM" />
-                                            </xAxis>
-                                            <yAxis>
-                                              <NumberAxis side="LEFT" />
-                                            </yAxis>
-                                          </AreaChart>
-                                       </children>
-                                    </AnchorPane>
-                                    <AnchorPane layoutX="438.0" layoutY="14.0" prefHeight="378.0" prefWidth="399.0" stylesheets="@../css/userView.css">
-                                       <styleClass>
-                                          <String fx:value="white-bg" />
-                                          <String fx:value="shadow" />
-                                          <String fx:value="radius" />
-                                       </styleClass>
-                                       <children>
-                                          <BarChart layoutX="-83.0" layoutY="-55.0" prefHeight="378.4" prefWidth="417.6" title="Customer Chart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                            <xAxis>
-                                              <CategoryAxis side="BOTTOM" />
-                                            </xAxis>
-                                            <yAxis>
-                                              <NumberAxis side="LEFT" />
-                                            </yAxis>
-                                          </BarChart>
-                                       </children>
-                                    </AnchorPane>
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane fx:id="inventory_form" layoutX="41.0" layoutY="117.0" prefHeight="600.0" prefWidth="877.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="300.0" prefWidth="854.0" stylesheets="@../css/userView.css">
-                                 <styleClass>
-                                    <String fx:value="white-bg" />
-                                    <String fx:value="shadow" />
-                                    <String fx:value="radius" />
-                                 </styleClass>
-                                 <children>
-                                    <TableView fx:id="inventory_table" layoutX="14.0" layoutY="21.0" prefHeight="300.0" prefWidth="854.4" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                      <columns>
-                                        <TableColumn fx:id="inventory_IDikan" prefWidth="75.0" text="ID Ikan" />
-                                        <TableColumn fx:id="inventory_namaIkan" prefWidth="75.0" text="Nama ikan" />
-                                          <TableColumn fx:id="inventory_stok" prefWidth="75.0" text="Stok" />
-                                          <TableColumn fx:id="inventory_harga" prefWidth="92.7999267578125" text="harga" />
-                                      </columns>
-                                       <columnResizePolicy>
-                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                       </columnResizePolicy>
-                                    </TableView>
-                                 </children>
-                              </AnchorPane>
-                              <AnchorPane layoutX="11.0" layoutY="323.0" prefHeight="262.0" prefWidth="854.0" stylesheets="@../css/userView.css">
-                                 <styleClass>
-                                    <String fx:value="white-bg" />
-                                    <String fx:value="shadow" />
-                                    <String fx:value="radius" />
-                                 </styleClass>
-                                 <children>
-                                    <Label layoutX="34.0" layoutY="39.0" text="ID_Ikan">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField layoutX="87.0" layoutY="37.0" />
-                                    <Label layoutX="7.0" layoutY="77.0" prefHeight="20.0" prefWidth="95.0" text="Nama_ikan">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField layoutX="87.0" layoutY="74.0" />
-                                    <Label layoutX="14.0" layoutY="115.0" prefHeight="20.0" prefWidth="82.0" text="Jenis_Ikan">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField layoutX="87.0" layoutY="112.0" />
-                                    <Label layoutX="338.0" layoutY="39.0" text="Stok">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField layoutX="379.0" layoutY="37.0" promptText="0" />
-                                    <Label layoutX="290.0" layoutY="76.0" prefHeight="20.0" prefWidth="126.0" text="Harga(Rp/...)">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField layoutX="379.0" layoutY="74.0" promptText="Rp.0000" />
-                                    <AnchorPane layoutX="700.0" layoutY="16.0" prefHeight="163.0" prefWidth="130.0" stylesheets="@../css/userView.css">
-                                       <styleClass>
-                                          <String fx:value="white-bg" />
-                                          <String fx:value="shadow" />
-                                       </styleClass>
-                                       <children>
-                                          <ImageView fx:id="inventory_image_view" fitHeight="158.0" fitWidth="126.0" layoutX="3.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" />
-                                       </children>
-                                    </AnchorPane>
-                                    <Button fx:id="inventory_importButton" layoutX="701.0" layoutY="189.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="126.0" styleClass="btn" stylesheets="@../css/userView.css" text="Import" />
-                                    <Button fx:id="inventory_annButton" layoutX="71.0" layoutY="190.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="119.0" styleClass="btn" stylesheets="@../css/userView.css" text="Add" />
-                                    <Button fx:id="inventory_updateButton" layoutX="199.0" layoutY="190.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="119.0" styleClass="btn" stylesheets="@../css/userView.css" text="Update" />
-                                    <Button fx:id="inventory_clearButton" layoutX="326.0" layoutY="190.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="119.0" styleClass="btn" stylesheets="@../css/userView.css" text="Clear" />
-                                    <Button fx:id="Inventory_deleteButton" layoutX="454.0" layoutY="190.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="119.0" styleClass="btn" stylesheets="@../css/userView.css" text="Delete" />
-                                    <Label layoutX="329.0" layoutY="114.0" prefHeight="20.0" prefWidth="47.0" text="Status">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField layoutX="379.0" layoutY="112.0" promptText="0" />
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane fx:id="datajual_form" layoutX="51.0" layoutY="70.0" prefHeight="600.0" prefWidth="877.6" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <Label layoutX="14.0" layoutY="23.0" text="Data Penjualan">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Label>
-                              <TableView fx:id="tabeldataPenjualan" layoutX="14.0" layoutY="53.0" prefHeight="542.0" prefWidth="849.0" stylesheets="@../css/userView.css">
-                                <columns>
-                                  <TableColumn prefWidth="75.0" text="ID Transaksi" />
-                                  <TableColumn prefWidth="75.0" text="ID User" />
-                                    <TableColumn prefWidth="75.0" text="ID Ikan" />
-                                    <TableColumn prefWidth="75.0" text="kuantitas" />
-                                    <TableColumn prefWidth="75.0" text="Date" />
-                                    <TableColumn prefWidth="75.0" text="Alamat" />
-                                    <TableColumn prefWidth="75.0" text="Total" />
-                                </columns>
-                                 <columnResizePolicy>
-                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                 </columnResizePolicy>
-                              </TableView>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane fx:id="databeli_form" layoutX="104.0" layoutY="167.0" prefHeight="600.0" prefWidth="877.6" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <Label layoutX="14.0" layoutY="26.0" text="Data pembelian ikan">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Label>
-                              <TableView layoutX="14.0" layoutY="56.0" prefHeight="533.0" prefWidth="850.0" stylesheets="@../css/userView.css">
-                                <columns>
-                                  <TableColumn prefWidth="75.0" text="ID Transaksi" />
-                                  <TableColumn prefWidth="75.0" text="ID Ikan" />
-                                    <TableColumn prefWidth="75.0" text="Kuantitas" />
-                                    <TableColumn prefWidth="75.0" text="Tanggal" />
-                                    <TableColumn prefWidth="75.0" text="Total" />
-                                </columns>
-                                 <columnResizePolicy>
-                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                 </columnResizePolicy>
-                              </TableView>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane fx:id="datacustomer_form" layoutX="103.0" layoutY="100.0" prefHeight="600.0" prefWidth="877.6" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <TableView layoutX="14.0" layoutY="30.0" prefHeight="560.0" prefWidth="848.0" stylesheets="@../css/userView.css">
-                                <columns>
-                                  <TableColumn prefWidth="75.0" text="ID User" />
-                                  <TableColumn prefWidth="75.0" text="Nama User" />
-                                    <TableColumn prefWidth="75.0" text="Alamat User" />
-                                    <TableColumn prefWidth="75.0" text="No Telepon" />
-                                    <TableColumn prefWidth="75.0" text="Total belanja" />
-                                </columns>
-                                 <columnResizePolicy>
-                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                 </columnResizePolicy>
-                              </TableView>
-                           </children>
-                        </AnchorPane>
+                        <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 11px;" text="Status:" HBox.hgrow="ALWAYS" />
+                        <Label styleClass="user-role-badge" text="ADMINISTRATOR" />
                      </children>
-                  </AnchorPane>
-               </center>
-            </BorderPane>
+                  </HBox>
+                  <Label fx:id="adminNameLabel" style="-fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-font-weight: bold;" text="Administrator" />
+                  <Label style="-fx-text-fill: #38bdf8; -fx-font-size: 11px;" text="Pusat Operasional" />
+               </children>
+            </VBox>
+
+            <!-- Navigation Links -->
+            <VBox spacing="6.0" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets left="14.0" right="14.0" top="8.0" />
+               </VBox.margin>
+               <children>
+                  <Button fx:id="dashboard_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showDashboard" styleClass="nav-btn, nav-btn-active" text="📊  Dashboard Ringkasan" />
+                  <Button fx:id="inventory_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showInventory" styleClass="nav-btn" text="🐟  Inventaris Ikan" />
+                  <Button fx:id="dataJual_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showDataJual" styleClass="nav-btn" text="💰  Data Penjualan" />
+                  <Button fx:id="nelayan_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showNelayan" styleClass="nav-btn" text="⚓  Mitra Nelayan" />
+               </children>
+            </VBox>
+
+            <!-- Bottom Logout Button -->
+            <VBox style="-fx-padding: 14px;">
+               <children>
+                  <Button fx:id="logout_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleLogout" styleClass="nav-logout-btn" text="🚪  Keluar Akun" />
+               </children>
+            </VBox>
          </children>
-      </AnchorPane>
-   </children>
-</StackPane>
+      </VBox>
+   </left>
+
+   <!-- Center Content Area -->
+   <center>
+      <StackPane styleClass="content-area" BorderPane.alignment="CENTER">
+         <children>
+            <!-- 1. DASHBOARD VIEW -->
+            <VBox fx:id="Dashboard_form" spacing="20.0" visible="true">
+               <children>
+                  <VBox spacing="2.0">
+                     <children>
+                        <Label styleClass="page-title" text="Dashboard Ringkasan" />
+                        <Label styleClass="page-subtitle" text="Pantau statistik operasional pasar ikan secara real-time" />
+                     </children>
+                  </VBox>
+
+                  <!-- 4 Metric Cards -->
+                  <HBox spacing="16.0">
+                     <children>
+                        <!-- Card 1 -->
+                        <HBox alignment="CENTER_LEFT" spacing="14.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                           <children>
+                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/309041_users_group_people_icon.png" />
+                                 </image>
+                              </ImageView>
+                              <VBox>
+                                 <children>
+                                    <Label styleClass="stat-title" text="Total Pelanggan" />
+                                    <Label fx:id="stat_customers" styleClass="stat-number" text="0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+
+                        <!-- Card 2 -->
+                        <HBox alignment="CENTER_LEFT" spacing="14.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                           <children>
+                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/134157_money_cashier_dollar_currency_icon.png" />
+                                 </image>
+                              </ImageView>
+                              <VBox>
+                                 <children>
+                                    <Label styleClass="stat-title" text="Penjualan Hari Ini" />
+                                    <Label fx:id="stat_todayIncome" styleClass="stat-number" text="Rp 0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+
+                        <!-- Card 3 -->
+                        <HBox alignment="CENTER_LEFT" spacing="14.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                           <children>
+                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/8664921_money_bill_icon.png" />
+                                 </image>
+                              </ImageView>
+                              <VBox>
+                                 <children>
+                                    <Label styleClass="stat-title" text="Total Pendapatan" />
+                                    <Label fx:id="stat_totalRevenue" styleClass="stat-number" text="Rp 0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+
+                        <!-- Card 4 -->
+                        <HBox alignment="CENTER_LEFT" spacing="14.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                           <children>
+                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/4634998_chart_analytics_dashboard_graphic_icon.png" />
+                                 </image>
+                              </ImageView>
+                              <VBox>
+                                 <children>
+                                    <Label styleClass="stat-title" text="Total Stok Ikan (kg)" />
+                                    <Label fx:id="stat_totalStock" styleClass="stat-number" text="0 kg" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+
+                  <!-- Overview Section -->
+                  <VBox spacing="10.0" styleClass="card" VBox.vgrow="ALWAYS">
+                     <children>
+                        <HBox alignment="CENTER_LEFT">
+                           <children>
+                              <Label styleClass="section-title" text="Transaksi Terkini" HBox.hgrow="ALWAYS" />
+                              <Button mnemonicParsing="false" onAction="#loadDashboardStats" styleClass="btn, btn-secondary" text="🔄 Perbarui Statistik" />
+                           </children>
+                        </HBox>
+                        <TableView fx:id="dash_recentSalesTable" prefHeight="260.0" VBox.vgrow="ALWAYS">
+                           <columns>
+                              <TableColumn fx:id="dash_colId" prefWidth="80.0" text="ID" />
+                              <TableColumn fx:id="dash_colUser" prefWidth="100.0" text="ID Pelanggan" />
+                              <TableColumn fx:id="dash_colIkan" prefWidth="100.0" text="ID Ikan" />
+                              <TableColumn fx:id="dash_colQty" prefWidth="90.0" text="Kuantitas" />
+                              <TableColumn fx:id="dash_colDate" prefWidth="130.0" text="Tanggal" />
+                              <TableColumn fx:id="dash_colTotal" prefWidth="150.0" text="Total Transaksi (Rp)" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+
+            <!-- 2. INVENTORY VIEW -->
+            <VBox fx:id="inventory_form" spacing="14.0" visible="false">
+               <children>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="page-title" text="Manajemen Inventaris Ikan" />
+                              <Label styleClass="page-subtitle" text="Kelola katalog produk, update harga, dan monitor ketersediaan stok" />
+                           </children>
+                        </VBox>
+                        <TextField fx:id="inventory_searchField" prefHeight="34.0" prefWidth="240.0" promptText="🔍 Cari ikan di tabel..." />
+                     </children>
+                  </HBox>
+
+                  <HBox spacing="16.0" VBox.vgrow="ALWAYS">
+                     <!-- Left Table -->
+                     <VBox spacing="10.0" styleClass="card" HBox.hgrow="ALWAYS">
+                        <children>
+                           <TableView fx:id="inventory_table" VBox.vgrow="ALWAYS">
+                              <columns>
+                                 <TableColumn fx:id="inventory_IDikan" prefWidth="60.0" text="ID" />
+                                 <TableColumn fx:id="inventory_namaIkan" prefWidth="160.0" text="Nama Ikan" />
+                                 <TableColumn fx:id="inventory_harga" prefWidth="110.0" text="Harga (Rp/kg)" />
+                                 <TableColumn fx:id="inventory_stok" prefWidth="80.0" text="Stok (kg)" />
+                                 <TableColumn fx:id="inventory_idNelayan" prefWidth="90.0" text="ID Nelayan" />
+                              </columns>
+                              <columnResizePolicy>
+                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                              </columnResizePolicy>
+                           </TableView>
+                        </children>
+                     </VBox>
+
+                     <!-- Right Editor Form -->
+                     <VBox prefWidth="320.0" spacing="12.0" styleClass="card">
+                        <children>
+                           <Label styleClass="section-title" text="Detail &amp; Input Ikan" />
+                           <VBox spacing="4.0">
+                              <children>
+                                 <Label styleClass="field-label" text="Nama Ikan" />
+                                 <TextField fx:id="inventory_namaField" promptText="misal: Ikan Tenggiri" />
+                              </children>
+                           </VBox>
+                           <VBox spacing="4.0">
+                              <children>
+                                 <Label styleClass="field-label" text="Harga (Rp per kg)" />
+                                 <TextField fx:id="inventory_hargaField" promptText="misal: 65000" />
+                              </children>
+                           </VBox>
+                           <VBox spacing="4.0">
+                              <children>
+                                 <Label styleClass="field-label" text="Stok Tersedia (kg)" />
+                                 <TextField fx:id="inventory_stokField" promptText="misal: 40" />
+                              </children>
+                           </VBox>
+                           <VBox spacing="4.0">
+                              <children>
+                                 <Label styleClass="field-label" text="ID Nelayan Pemasok" />
+                                 <TextField fx:id="inventory_idNelayanField" promptText="misal: 1" />
+                              </children>
+                           </VBox>
+                           <VBox spacing="4.0">
+                              <children>
+                                 <Label styleClass="field-label" text="Gambar / Label File" />
+                                 <TextField fx:id="inventory_gambarField" promptText="ikan.png" />
+                              </children>
+                           </VBox>
+
+                           <!-- Action Buttons -->
+                           <VBox spacing="8.0">
+                              <VBox.margin>
+                                 <Insets top="10.0" />
+                              </VBox.margin>
+                              <children>
+                                 <HBox spacing="8.0">
+                                    <children>
+                                       <Button fx:id="inventory_annButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addIkan" prefHeight="36.0" styleClass="btn, btn-primary" text="➕ Tambah" HBox.hgrow="ALWAYS" />
+                                       <Button fx:id="inventory_updateButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateIkan" prefHeight="36.0" styleClass="btn, btn-success" text="✏️ Simpan" HBox.hgrow="ALWAYS" />
+                                    </children>
+                                 </HBox>
+                                 <HBox spacing="8.0">
+                                    <children>
+                                       <Button fx:id="inventory_deleteButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#deleteIkan" prefHeight="36.0" styleClass="btn, btn-danger" text="🗑️ Hapus" HBox.hgrow="ALWAYS" />
+                                       <Button fx:id="inventory_clearButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clearInventoryFields" prefHeight="36.0" styleClass="btn, btn-secondary" text="🧹 Reset" HBox.hgrow="ALWAYS" />
+                                    </children>
+                                 </HBox>
+                              </children>
+                           </VBox>
+                        </children>
+                     </VBox>
+                  </HBox>
+               </children>
+            </VBox>
+
+            <!-- 3. DATA PENJUALAN VIEW -->
+            <VBox fx:id="datajual_form" spacing="14.0" visible="false">
+               <children>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="page-title" text="Data Penjualan Keseluruhan" />
+                              <Label styleClass="page-subtitle" text="Rekap seluruh transaksi yang dilakukan oleh pembeli" />
+                           </children>
+                        </VBox>
+                        <Button mnemonicParsing="false" onAction="#loadPenjualanData" styleClass="btn, btn-secondary" text="🔄 Refresh Data" />
+                     </children>
+                  </HBox>
+
+                  <TableView fx:id="tabeldataPenjualan" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="col_transaksiId" prefWidth="90.0" text="ID Transaksi" />
+                        <TableColumn fx:id="col_userId" prefWidth="90.0" text="ID User" />
+                        <TableColumn fx:id="col_ikanId" prefWidth="90.0" text="ID Ikan" />
+                        <TableColumn fx:id="col_qty" prefWidth="80.0" text="Kuantitas" />
+                        <TableColumn fx:id="col_date" prefWidth="120.0" text="Tanggal" />
+                        <TableColumn fx:id="col_address" prefWidth="250.0" text="Alamat Pengiriman" />
+                        <TableColumn fx:id="col_total" prefWidth="130.0" text="Total (Rp)" />
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </children>
+            </VBox>
+
+            <!-- 4. MITRA NELAYAN VIEW -->
+            <VBox fx:id="nelayan_form" spacing="14.0" visible="false">
+               <children>
+                  <VBox spacing="2.0">
+                     <children>
+                        <Label styleClass="page-title" text="Daftar Mitra Nelayan" />
+                        <Label styleClass="page-subtitle" text="Kelola pemasok ikan segar dan informasi kontak nelayan" />
+                     </children>
+                  </VBox>
+
+                  <HBox spacing="16.0" VBox.vgrow="ALWAYS">
+                     <TableView fx:id="tabelNelayan" HBox.hgrow="ALWAYS">
+                        <columns>
+                           <TableColumn fx:id="col_nelayanId" prefWidth="80.0" text="ID Nelayan" />
+                           <TableColumn fx:id="col_nelayanNama" prefWidth="200.0" text="Nama Nelayan" />
+                           <TableColumn fx:id="col_nelayanTelepon" prefWidth="160.0" text="Nomor Telepon" />
+                        </columns>
+                        <columnResizePolicy>
+                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                        </columnResizePolicy>
+                     </TableView>
+
+                     <!-- Add Fisherman Form -->
+                     <VBox prefWidth="320.0" spacing="12.0" styleClass="card">
+                        <children>
+                           <Label styleClass="section-title" text="Tambah Nelayan Baru" />
+                           <VBox spacing="4.0">
+                              <children>
+                                 <Label styleClass="field-label" text="Nama Nelayan" />
+                                 <TextField fx:id="nelayan_namaField" promptText="Pak Joko..." />
+                              </children>
+                           </VBox>
+                           <VBox spacing="4.0">
+                              <children>
+                                 <Label styleClass="field-label" text="Nomor Telepon" />
+                                 <TextField fx:id="nelayan_teleponField" promptText="0812..." />
+                              </children>
+                           </VBox>
+                           <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addNelayan" prefHeight="36.0" styleClass="btn, btn-primary" text="➕ Tambah Nelayan">
+                              <VBox.margin>
+                                 <Insets top="10.0" />
+                              </VBox.margin>
+                           </Button>
+                        </children>
+                     </VBox>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+   </center>
+</BorderPane>

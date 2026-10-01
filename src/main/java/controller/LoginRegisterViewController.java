@@ -1,229 +1,216 @@
 package controller;
 
-import service.UserService;
 import model.User;
+import service.UserService;
+import utils.SessionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LoginRegisterViewController implements Initializable {
+    private static final Logger logger = LoggerFactory.getLogger(LoginRegisterViewController.class);
 
     private final UserService userService = new UserService();
 
-    @FXML
-    private Button si_loginButton;
+    @FXML private VBox si_loginForm;
+    @FXML private TextField si_username;
+    @FXML private PasswordField si_password;
+    @FXML private Button si_loginButton;
+    @FXML private Button tabLogin;
+    @FXML private Button tabRegister;
 
-    @FXML
-    private AnchorPane si_loginForm;
+    @FXML private VBox su_signupForm;
+    @FXML private TextField su_namaLengkap;
+    @FXML private TextField su_username;
+    @FXML private TextField su_email;
+    @FXML private TextField su_alamat;
+    @FXML private PasswordField su_password;
+    @FXML private PasswordField su_confirmPass;
+    @FXML private Button su_registerButton;
 
-    @FXML
-    private PasswordField si_password;
+    @FXML private Button side_switchButton;
+    @FXML private Label brandBottomNote;
 
-    @FXML
-    private TextField si_username;
-
-    @FXML
-    private TextField su_alamat;
-
-    @FXML
-    private TextField su_confirmPass;
-
-    @FXML
-    private TextField su_email;
-
-    @FXML
-    private TextField su_namaLengkap;
-
-    @FXML
-    private TextField su_password;
-
-    @FXML
-    private Button su_registerButton;
-
-    @FXML
-    private AnchorPane su_signupForm;
-
-    @FXML
-    private TextField su_username;
-
-    @FXML
-    private Button side_alreadyHave;
-
-    @FXML
-    private Button side_createButton;
-
-    @FXML
-    private Button side_alreadyHave1;
-
-    @FXML
-    private Button side_createButton1;
-
-    @FXML
-    private AnchorPane side_formLeft;
-
-    @FXML
-    private AnchorPane side_formRight;
+    private boolean isLoginMode = true;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Set initial visibility of forms
-        si_loginForm.setVisible(false);
-        su_signupForm.setVisible(true);
-        side_formRight.setVisible(true);
-        side_formLeft.setVisible(false);
+        showLoginForm();
     }
 
     @FXML
-    public void handleLogin(ActionEvent event) {
-        try {
-            String username = si_username.getText();
-            String password = si_password.getText();
+    public void showLoginForm() {
+        isLoginMode = true;
+        si_loginForm.setVisible(true);
+        si_loginForm.setManaged(true);
+        su_signupForm.setVisible(false);
+        su_signupForm.setManaged(false);
 
-            if (username.isEmpty() || password.isEmpty()) {
-                showAlert(Alert.AlertType.ERROR, "Login Failed", "Username and password cannot be empty.");
-                return;
-            }
-
-            // Check if the login is for admin
-            if ("admin".equals(username) && "admin123".equals(password)) {
-                showAlert(Alert.AlertType.INFORMATION, "Login Success", "Welcome, Admin!");
-                loadAdminView();
-                return;
-            }
-
-            // Regular user login
-            User user = userService.loginUser(username, password);
-            if (user != null) {
-                showAlert(Alert.AlertType.INFORMATION, "Login Success", "Welcome, " + user.getNamaLengkap());
-                loadUserView(user);
-            } else {
-                showAlert(Alert.AlertType.ERROR, "Login Failed", "Invalid username or password.");
-            }
-        } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "An unexpected error occurred: " + e.getMessage());
+        if (side_switchButton != null) {
+            side_switchButton.setText("Buat Akun Baru");
+        }
+        if (brandBottomNote != null) {
+            brandBottomNote.setText("Belum punya akun? Daftar gratis sekarang:");
         }
     }
 
     @FXML
-    public void handleRegister(ActionEvent event) {
-        try {
-            String namaLengkap = su_namaLengkap.getText();
-            String username = su_username.getText();
-            String alamat = su_alamat.getText();
-            String email = su_email.getText();
-            String password = su_password.getText();
-            String confirmPass = su_confirmPass.getText();
+    public void showSignupForm() {
+        isLoginMode = false;
+        si_loginForm.setVisible(false);
+        si_loginForm.setManaged(false);
+        su_signupForm.setVisible(true);
+        su_signupForm.setManaged(true);
 
-            if (namaLengkap.isEmpty() || username.isEmpty() || alamat.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPass.isEmpty()) {
-                showAlert(Alert.AlertType.ERROR, "Registration Failed", "All fields must be filled.");
-                return;
-            }
-
-            if (!password.equals(confirmPass)) {
-                showAlert(Alert.AlertType.ERROR, "Registration Failed", "Passwords do not match.");
-                return;
-            }
-
-            if (!isInputValid(email, password)) {
-                return;
-            }
-
-            User user = new User(0, username, email, password, alamat, namaLengkap);
-            boolean registrationSuccess = userService.registerUser(user);
-
-            if (registrationSuccess) {
-                showAlert(Alert.AlertType.INFORMATION, "Registration Success", "Account created successfully!");
-                switchFormToLogin();
-            } else {
-                showAlert(Alert.AlertType.ERROR, "Registration Failed", "An error occurred. Try again.");
-            }
-        } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "An unexpected error occurred: " + e.getMessage());
+        if (side_switchButton != null) {
+            side_switchButton.setText("Beralih ke Form Masuk");
+        }
+        if (brandBottomNote != null) {
+            brandBottomNote.setText("Sudah punya akun? Masuk langsung di sini:");
         }
     }
 
     @FXML
     public void switchForm(ActionEvent event) {
-        if (event.getSource() == side_alreadyHave1 || event.getSource() == side_createButton1) {
-            su_signupForm.setVisible(false); 
-            si_loginForm.setVisible(true);
-            side_formRight.setVisible(false);
-            side_formLeft.setVisible(true);
-        } else if (event.getSource() == side_alreadyHave || event.getSource() == side_createButton) {
-            si_loginForm.setVisible(false);
-            su_signupForm.setVisible(true);
-            side_formRight.setVisible(true);
-            side_formLeft.setVisible(false);
+        if (isLoginMode) {
+            showSignupForm();
+        } else {
+            showLoginForm();
         }
     }
 
-    private void showAlert(Alert.AlertType alertType, String title, String content) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.show();
+    @FXML
+    public void handleLogin(ActionEvent event) {
+        String username = si_username.getText() != null ? si_username.getText().trim() : "";
+        String password = si_password.getText() != null ? si_password.getText() : "";
+
+        if (username.isEmpty() || password.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Validasi Gagal", "Username dan password tidak boleh kosong.");
+            return;
+        }
+
+        try {
+            User user = userService.loginUser(username, password);
+            if (user != null) {
+                SessionManager.setCurrentUser(user);
+                logger.info("Login successful for user: {} (Role: {})", user.getUsername(), user.getRole());
+
+                if (user.isAdmin()) {
+                    loadAdminView();
+                } else {
+                    loadUserView(user);
+                }
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Login Gagal", "Username atau password salah.");
+            }
+        } catch (Exception e) {
+            logger.error("Login error: {}", e.getMessage(), e);
+            showAlert(Alert.AlertType.ERROR, "Kesalahan Sistem", "Gagal melakukan autentikasi: " + e.getMessage());
+        }
     }
 
-    private boolean isInputValid(String email, String password) {
-        if (!email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
-            showAlert(Alert.AlertType.ERROR, "Invalid Email", "Please enter a valid email address.");
-            return false;
+    @FXML
+    public void handleRegister(ActionEvent event) {
+        String namaLengkap = su_namaLengkap.getText() != null ? su_namaLengkap.getText().trim() : "";
+        String username = su_username.getText() != null ? su_username.getText().trim() : "";
+        String email = su_email.getText() != null ? su_email.getText().trim() : "";
+        String alamat = su_alamat.getText() != null ? su_alamat.getText().trim() : "";
+        String password = su_password.getText() != null ? su_password.getText() : "";
+        String confirmPass = su_confirmPass.getText() != null ? su_confirmPass.getText() : "";
+
+        if (namaLengkap.isEmpty() || username.isEmpty() || email.isEmpty() || alamat.isEmpty() || password.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Pendaftaran Gagal", "Semua kolom wajib diisi.");
+            return;
         }
+
+        if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            showAlert(Alert.AlertType.WARNING, "Pendaftaran Gagal", "Format email tidak valid.");
+            return;
+        }
+
         if (password.length() < 6) {
-            showAlert(Alert.AlertType.ERROR, "Weak Password", "Password must be at least 6 characters long.");
-            return false;
+            showAlert(Alert.AlertType.WARNING, "Pendaftaran Gagal", "Password minimal harus 6 karakter.");
+            return;
         }
-        return true;
+
+        if (!password.equals(confirmPass)) {
+            showAlert(Alert.AlertType.WARNING, "Pendaftaran Gagal", "Konfirmasi password tidak cocok.");
+            return;
+        }
+
+        try {
+            User newUser = new User(0, username, email, password, alamat, namaLengkap, "USER");
+            boolean success = userService.registerUser(newUser);
+
+            if (success) {
+                showAlert(Alert.AlertType.INFORMATION, "Pendaftaran Berhasil",
+                        "Akun berhasil dibuat! Silakan masuk dengan akun baru Anda.");
+                si_username.setText(username);
+                si_password.clear();
+                showLoginForm();
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Pendaftaran Gagal", "Terjadi kesalahan saat mendaftarkan akun.");
+            }
+        } catch (IllegalArgumentException e) {
+            showAlert(Alert.AlertType.WARNING, "Pendaftaran Gagal", e.getMessage());
+        } catch (Exception e) {
+            logger.error("Registration error: {}", e.getMessage(), e);
+            showAlert(Alert.AlertType.ERROR, "Kesalahan Sistem", "Terjadi kesalahan: " + e.getMessage());
+        }
     }
 
     private void loadUserView(User user) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/userView.fxml"));
             Parent root = loader.load();
-            Stage stage = (Stage) si_loginButton.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
 
-            UserViewController userViewController = loader.getController();
-            userViewController.setUser(user);
+            UserViewController controller = loader.getController();
+            controller.setUser(user);
+
+            Stage stage = (Stage) si_loginButton.getScene().getWindow();
+            stage.setTitle("Fish Market - Seafood Marketplace");
+            stage.setScene(new Scene(root, 1100, 650));
+            stage.centerOnScreen();
+            stage.show();
         } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Unable to load user view: " + e.getMessage());
+            logger.error("Failed to load user view: {}", e.getMessage(), e);
+            showAlert(Alert.AlertType.ERROR, "Error", "Gagal memuat tampilan pembeli: " + e.getMessage());
         }
     }
 
     private void loadAdminView() {
         try {
-            FXMLLoader loader;
-            loader = new FXMLLoader(getClass().getResource("/view/adminView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/adminView.fxml"));
             Parent root = loader.load();
+
             Stage stage = (Stage) si_loginButton.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
+            stage.setTitle("Fish Market - Panel Admin & Inventaris");
+            stage.setScene(new Scene(root, 1150, 680));
+            stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Unable to load admin view: " + e.getMessage());
+            logger.error("Failed to load admin view: {}", e.getMessage(), e);
+            showAlert(Alert.AlertType.ERROR, "Error", "Gagal memuat tampilan admin: " + e.getMessage());
         }
     }
 
-    private void switchFormToLogin() {
-        su_signupForm.setVisible(false);
-        si_loginForm.setVisible(true);
-        side_formRight.setVisible(false);
-        side_formLeft.setVisible(true);
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

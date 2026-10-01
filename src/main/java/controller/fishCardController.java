@@ -1,14 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller;
 
 /**
- *
- * @author imdaq
+ * Backward compatibility alias for FishCardController.
  */
-
-public class fishCardController {
-
+public class fishCardController extends FishCardController {
 }

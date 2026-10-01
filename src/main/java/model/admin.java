@@ -1,19 +1,14 @@
 package model;
 
-import java.sql.Timestamp;
-
-public class admin {
-    private String username = "a";
-    private String password = "a";
-
+/**
+ * Backward compatibility alias for Admin.
+ */
+public class admin extends Admin {
     public admin() {
-    }
-    
-    public admin(int idUSer,String tipePengguna){
+        super();
     }
 
-    public boolean isValidAdmin(String enteredUsername, String enteredPassword) {
-    return enteredUsername.equals(username) && enteredPassword.equals(password);
+    public admin(int idUser, String tipePengguna) {
+        super();
     }
-    
 }

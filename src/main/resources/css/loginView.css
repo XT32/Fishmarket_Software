@@ -1,47 +1,155 @@
-.gradient{
-    -fx-background-color: linear-gradient(to bottom right, #211dff, #12c7e7);
+/* Modern Coastal / Ocean Theme for Login & Register */
+.root {
+    -fx-font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    -fx-background-color: #f1f5f9;
 }
 
-.white-form{
-    -fx-background-color: #fff;
+.main-container {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 16px;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.12), 24, 0, 0, 8);
 }
 
-.head-label{
-    -fx-border-color:#fff;
-    -fx-border-widht: 0 0 0 5px;
-    -fx-padding: 0 0 0 5px;
+/* Branded Left / Side Banner */
+.brand-side {
+    -fx-background-color: linear-gradient(to bottom right, #0f172a, #0369a1);
+    -fx-background-radius: 16px 0 0 16px;
+    -fx-padding: 36px 30px;
 }
 
-.login-btn{
-    -fx-background-color: linear-gradient(to bottom right, #36b9ff, #3a4499);
-    -fx-background-radius: 5px;
-    -fx-cursor: hand;
-    fx-text-fill: #fff;
-    fx-font-size: 14px;
+.brand-side-right {
+    -fx-background-color: linear-gradient(to bottom right, #0f172a, #0284c7);
+    -fx-background-radius: 0 16px 16px 0;
+    -fx-padding: 36px 30px;
 }
 
-.textfield{
-    -fx-background-color: transparent;
-    -fx-border-color: linear-gradient(to bottom right, #0f6789, #286155);
-    -fx-border-width: .5px;
+.brand-title {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
 }
-.textfield:focused{
+
+.brand-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #94a3b8;
+}
+
+.brand-badge {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-background-radius: 20px;
+    -fx-padding: 4px 14px;
+    -fx-text-fill: #38bdf8;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.brand-feature {
+    -fx-font-size: 12px;
+    -fx-text-fill: #cbd5e1;
+}
+
+/* Form Panel */
+.form-panel {
+    -fx-background-color: #ffffff;
+    -fx-padding: 32px 36px;
+}
+
+.form-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+
+.form-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #64748b;
+}
+
+.field-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #334155;
+}
+
+/* Modern Input Fields */
+.text-field, .password-field {
+    -fx-background-color: #f8fafc;
+    -fx-border-color: #cbd5e1;
     -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 12px;
+    -fx-font-size: 13px;
+    -fx-text-fill: #0f172a;
+    -fx-prompt-text-fill: #94a3b8;
 }
 
-.create-btn{
-    -fx-background-color: transparent;
+.text-field:focused, .password-field:focused {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #0284c7;
+    -fx-border-width: 1.5px;
+    -fx-effect: dropshadow(gaussian, rgba(2, 132, 199, 0.2), 6, 0, 0, 0);
+}
+
+/* Primary Action Buttons */
+.btn-primary {
+    -fx-background-color: linear-gradient(to right, #0284c7, #0369a1);
+    -fx-background-radius: 8px;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
     -fx-cursor: hand;
-    -fx-text-fill: #fff;
-    -fx-border-color: #fff;
-    -fx-border-width: 1px;
-}
-.create-btn:hover{
-    -fx-background-color: #fff;
-    -fx-text-fill: #000;
-}
-.side-form {
-    -fx-background-color: linear-gradient(to bottom right, #211dff, #12c7e7);
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 5);
+    -fx-padding: 10px 18px;
+    -fx-effect: dropshadow(gaussian, rgba(2, 132, 199, 0.3), 8, 0, 0, 2);
 }
 
+.btn-primary:hover {
+    -fx-background-color: linear-gradient(to right, #0369a1, #075985);
+    -fx-effect: dropshadow(gaussian, rgba(2, 132, 199, 0.4), 10, 0, 0, 3);
+}
+
+.btn-primary:pressed {
+    -fx-background-color: #0c4a6e;
+}
+
+/* Secondary / Switch Buttons */
+.btn-secondary {
+    -fx-background-color: transparent;
+    -fx-border-color: rgba(255, 255, 255, 0.4);
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-padding: 8px 16px;
+}
+
+.btn-secondary:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-border-color: #ffffff;
+}
+
+/* Pill Toggle Switcher */
+.switch-box {
+    -fx-background-color: #f1f5f9;
+    -fx-background-radius: 20px;
+    -fx-padding: 3px;
+}
+
+.switch-tab {
+    -fx-background-color: transparent;
+    -fx-text-fill: #64748b;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 18px;
+    -fx-padding: 6px 16px;
+    -fx-cursor: hand;
+}
+
+.switch-tab-active {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #0284c7;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 4, 0, 0, 1);
+}
